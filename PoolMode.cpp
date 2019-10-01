@@ -121,6 +121,11 @@ void PoolMode::update(float elapsed) {
 							info.dozer->controls.right_forward = (controls & 4);
 							info.dozer->controls.right_backward = (controls & 8);
 						}
+					} else {
+						//invalid packet type
+						remove_player(c);
+						c->close();
+						return;
 					}
 				}
 			}
