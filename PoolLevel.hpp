@@ -29,6 +29,8 @@ struct PoolLevel : Scene {
 	PoolLevel(PoolLevel const &);
 	PoolLevel &operator=(PoolLevel const &);
 
+	//Level Info:
+
 	glm::vec2 level_min = glm::vec2(-3.0f, -2.0f);
 	glm::vec2 level_max = glm::vec2( 3.0f,  2.0f);
 	std::vector< glm::vec2 > goals;
@@ -38,7 +40,6 @@ struct PoolLevel : Scene {
 		TeamSolid = 's',
 		TeamDiamond = 'd'
 	};
-
 
 	struct Ball {
 		Scene::Transform *transform = nullptr;
@@ -67,6 +68,9 @@ struct PoolLevel : Scene {
 		} controls;
 	};
 	std::list< Dozer > dozers;
+
+	int32_t diamond_score = 0;
+	int32_t solid_score = 0;
 
 	//add/remove dozers from the list (creating/removing transforms+drawables):
 	Dozer *add_dozer(std::string const &name, Team const &team);

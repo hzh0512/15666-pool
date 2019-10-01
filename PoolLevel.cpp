@@ -68,7 +68,9 @@ PoolLevel &PoolLevel::operator=(PoolLevel const &other) {
 	set(other, &transform_to_transform);
 	level_min = other.level_min;
 	level_max = other.level_max;
+
 	goals = other.goals;
+
 	balls = other.balls;
 	for (auto &ball : balls) {
 		ball.transform = transform_to_transform.at(ball.transform);
@@ -78,6 +80,9 @@ PoolLevel &PoolLevel::operator=(PoolLevel const &other) {
 	for (auto &dozer : dozers) {
 		dozer.transform = transform_to_transform.at(dozer.transform);
 	}
+
+	diamond_score = other.diamond_score;
+	solid_score = other.solid_score;
 
 	return *this;
 }
@@ -256,7 +261,9 @@ void PoolLevel::update(float elapsed) {
 			for (auto &b2 : balls) {
 				if (&b == &b2) break;
 				if (b2.scored != 0.0f) continue; //scored balls don't participate in pushes
-				push_apart(b.transform->position,b2.transform->position,0.3f);
+				if (push_apart(b.transform->position,b2.transform->position,0.3f)) {
+					b.last_to_touch = TeamNone;
+				}
 			}
 			for (auto &a : dozers) {
 				if (push_apart(a.transform->position,b.transform->position,0.3f, 0.9f)) {
@@ -282,6 +289,17 @@ void PoolLevel::update(float elapsed) {
 				float len = glm::length(g - glm::vec2(b.transform->position));
 				if (len < 0.4f) {
 					b.scored = 0.001f;
+					if (b.is_solid()) {
+						solid_score += 1;
+					} else if (b.is_diamond()) {
+						diamond_score += 1;
+					} else if (b.is_eight()) {
+						if (b.last_to_touch == TeamSolid) {
+							solid_score -= 3;
+						} else if (b.last_to_touch == TeamDiamond) {
+							diamond_score -= 3;
+						}
+					}
 					//TODO: points assignment
 				}
 			}

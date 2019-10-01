@@ -152,8 +152,28 @@ void PoolMode::draw(glm::uvec2 const &drawable_size) {
 			glm::vec2 min, max;
 			draw.get_text_extents(help_text, glm::vec2(0.0f, 0.0f), 1.0f, &min, &max);
 			float x = std::round(160.0f - (0.5f * (max.x + min.x)));
-			draw.draw_text(help_text, glm::vec2(x, 1.0f), 1.0f, glm::u8vec4(0x00,0x00,0x00,0xff));
-			draw.draw_text(help_text, glm::vec2(x, 2.0f), 1.0f, glm::u8vec4(0xff,0xff,0xff,0xff));
+			draw.draw_text(help_text, glm::vec2(x, 2.0f), 1.0f, glm::u8vec4(0x00,0x00,0x00,0xff));
+			draw.draw_text(help_text, glm::vec2(x, 3.0f), 1.0f, glm::u8vec4(0xff,0xff,0xff,0xff));
+		}
+
+		{
+			std::string text = "Diamonds: " + std::to_string(level.diamond_score);
+			glm::vec2 min, max;
+			draw.get_text_extents(text, glm::vec2(0.0f, 0.0f), 1.0f, &min, &max);
+			float x = std::round(2.0f - min.x);
+			float y = 185.0f;
+			draw.draw_text(text, glm::vec2(x, y - 1.0f), 1.0f, glm::u8vec4(0x00,0x00,0x00,0xff));
+			draw.draw_text(text, glm::vec2(x, y), 1.0f, glm::u8vec4(0xff,0xff,0xff,0xff));
+		}
+
+		{
+			std::string text = "Solids: " + std::to_string(level.solid_score);
+			glm::vec2 min, max;
+			draw.get_text_extents(text, glm::vec2(0.0f, 0.0f), 1.0f, &min, &max);
+			float x = std::round(318.0f - max.x);
+			float y = 185.0f;
+			draw.draw_text(text, glm::vec2(x, y - 1.0f), 1.0f, glm::u8vec4(0x00,0x00,0x00,0xff));
+			draw.draw_text(text, glm::vec2(x, y), 1.0f, glm::u8vec4(0xff,0xff,0xff,0xff));
 		}
 
 	}
