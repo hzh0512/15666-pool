@@ -19,12 +19,12 @@ Load< SpriteAtlas > trade_font_atlas(LoadTagDefault, []() -> SpriteAtlas const *
 	return new SpriteAtlas(data_path("trade-font"));
 });
 
-
 ClientMode::ClientMode(std::string const &host, std::string const &port) {
-	//TODO: start connection to host:port?
+    cl = new Client(host, port);
 }
 
 ClientMode::~ClientMode() {
+    delete cl;
 }
 
 bool ClientMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size) {
@@ -47,7 +47,15 @@ bool ClientMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_siz
 }
 
 void ClientMode::update(float elapsed) {
-	//TODO: send current controls
+	char buf[5];
+	buf[0] = 'C';
+	buf[1] = 0;
+	buf[2] = 0;
+	buf[3] = 1;
+	buf[4] = (controls.right_backward << 3) | (controls.right_forward << 2) |
+            (controls.left_backward << 1) | (controls.left_forward);
+	cl->connection.send(buf);
+    cl->poll([](Connection *connection, Connection::Event evt){}, 0.0);
 }
 
 void ClientMode::draw(glm::uvec2 const &drawable_size) {

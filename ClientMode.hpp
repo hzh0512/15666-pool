@@ -4,6 +4,7 @@
 #include "PoolLevel.hpp"
 
 #include <memory>
+#include "Connection.hpp"
 
 struct ClientMode : Mode {
 	ClientMode(std::string const &host, std::string const &port);
@@ -20,4 +21,5 @@ struct ClientMode : Mode {
 	PoolLevel::Dozer::Controls controls;
 
 	//TODO: maintain a connection to the server here!
+	Client *cl;
 };
