@@ -41,7 +41,9 @@ void PoolMode::restart() {
 	}
 
 	//spawn a local player:
-	dozer = level.spawn_dozer("Local");
+	if (!server) {
+		dozer = level.spawn_dozer("Local");
+	}
 
 	if (level.cameras.empty()) {
 		throw std::runtime_error("Level is missing a camera.");
