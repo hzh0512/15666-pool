@@ -30,7 +30,7 @@ Load< std::list< PoolLevel > > pool_levels(LoadTagLate, []() -> std::list< PoolL
 });
 
 PoolLevel::PoolLevel(std::string const &scene_file) {
-	load(scene_file, [this,&scene_file](Scene &, Transform *transform, std::string const &mesh_name){
+	load(scene_file, [this](Scene &, Transform *transform, std::string const &mesh_name){
 		Mesh const *mesh = &pool_meshes->lookup(mesh_name);
 	
 		drawables.emplace_back(transform);
